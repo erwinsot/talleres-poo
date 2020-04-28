@@ -8,7 +8,7 @@ Repasar los conceptos fundamentales de la [programación estructurada](http://ob
 
 ### Tareas
 
-Emplee la plantilla adjunta (encontrada en la carpeta `Tangram`) para la realización de las siguientes tareas del juego:
+
 
 1. Dibujo de las piezas.
 2. Selección y manipulación de las piezas (ratón y teclado).
