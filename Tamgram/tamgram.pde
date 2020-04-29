@@ -2,7 +2,7 @@ import processing.serial.*;
 PImage img, bg,gn;
 int rectX, rectY;      
 int circleX, circleY;  
-int rectSize = 95;     
+int rectSize = 100;     
 int circleSize = 93;   
 color rectColor, circleColor, baseColor,triColor,triColor2,triColor3,triColor4 ;
 color rectHighlight,trihilight, circleHighlight;
@@ -108,19 +108,19 @@ void setup() {
   rectY = height/2;
   quCenx=(qux2+qux1)/2;
   quCeny=(quy2+quy1)/2;
-  po1=200;
-  po2=200;
-  po3=250;
-  po4=320;
+  po1=150;
+  po2=150;
+  po3=600;
+  po4=700;
   po5=200;
-  po6=600;
-  po7=600;
-  po8=600;
-  po9=600;
+  po6=700;
+  po7=400;
+  po8=700;
+  po9=700;
   po10=200;
-  po11=150;
-  po12=300;
-  //imageMode(CENTER);
+  po11=130;
+  po12=400;
+  imageMode(CENTER);
   ellipseMode(CENTER);
   rectMode(CENTER); 
  
@@ -129,10 +129,12 @@ void setup() {
 void draw(){ 
   frameRate(120);  
   update(mouseX, mouseY);
-  background(bg);
-  image(img,500,500);    
- gane();
+  background(bg);  
+  image(img,width/2,height/2);
+  
+ 
 //////////////////////////////rectangulo/////////////////////////////////////////////////////////
+noStroke();
 verificador(rectOver);           
   if (move== true && rectOver==true){    
     if (keyPressed){
@@ -408,6 +410,7 @@ verificador(rectOver);
     }
     
  }
+ gane();
 }
 void verificador7(boolean figura){
   if (figura) {
@@ -670,7 +673,7 @@ boolean overCircle(int x, int y, int diameter) {
 }
 void ganador(){
   loadPixels();
-  for (int i =400500; i <400800; i++){
+  for (int i =200250; i <200550; i++){
     for (int j=0; j<300; j++){
       int hu=i+j*800;
       if (pixels[hu]==color(255)){
@@ -679,7 +682,7 @@ void ganador(){
       }     
     }
     print(c,"\n");
-     if (c<4000){
+     if (c<5000){
         conGanador=true;
       }
      else {
@@ -689,6 +692,6 @@ void ganador(){
 }
 void gane(){
   if (conGanador==true){
-    image(gn,0,0);
+    image(gn,width/2,height/2);
   }
 } 
