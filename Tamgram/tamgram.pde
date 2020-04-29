@@ -1,5 +1,5 @@
 import processing.serial.*;
-PImage img, bg,gn;
+PImage  bg,gn;
 int rectX, rectY;      
 int circleX, circleY;  
 int rectSize = 100;     
@@ -20,10 +20,9 @@ float qux,quy,qux1,quy1,qux2,quy2,qux3,quy3;
 int c;
 float quCenx,quCeny;
 boolean conGanador;
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
-  size(800, 800);
-  img=loadImage("tam1.png");
+  size(800, 800); 
   bg=loadImage("made.jpg"); 
   gn=loadImage("win.png");
   qux=-150;
@@ -42,55 +41,56 @@ void setup() {
   y2=110;
   baricentroX=(x+x1+x2)/3;
   baricentroY=(y+y1+y2)/3;
+  ///////////////////
   qu= createShape();
-  qu.beginShape();
-  //s.fill(0, 0, 255);
+  qu.beginShape(); 
   qu.noStroke();
   qu.vertex(qux,quy);
   qu.vertex(qux2,quy2);
   qu.vertex(qux3, quy3);
   qu.vertex(qux1,quy1);  
   qu.endShape(CLOSE);
+  ////////////////////
   p= createShape();
-  p.beginShape();
-  //s.fill(0, 0, 255);
+  p.beginShape(); 
   p.noStroke();
   p.vertex(x,y-baricentroY);
   p.vertex(x1, y1+baricentroY);
   p.vertex(x2, y2-baricentroY);  
   p.endShape(CLOSE);
+  ////////////////////////////
   w= createShape();
   w.beginShape();
-  //s.fill(0, 0, 255);
   w.noStroke();
   w.vertex(x,y-baricentroY);
   w.vertex(x1, y1+baricentroY);
   w.vertex(x2, y2-baricentroY);  
   w.endShape(CLOSE);
+  /////////////////////////////
   s = createShape();
-  s.beginShape();
-  //s.fill(0, 0, 255);
+  s.beginShape();  
   s.noStroke();
   s.vertex(x,y-baricentroY);
   s.vertex(x1, y1+baricentroY);
   s.vertex(x2, y2-baricentroY);  
   s.endShape(CLOSE);
+  //////////////////////////////////
   t = createShape();
-  t.beginShape();
-  //s.fill(0, 0, 255);
+  t.beginShape();  
   t.noStroke();
   t.vertex(x,y-baricentroY);
   t.vertex(x1, y1+baricentroY);
   t.vertex(x2, y2-baricentroY);  
   t.endShape(CLOSE);
+  //////////////////////////////////////
   u = createShape();
-  u.beginShape();
-  //s.fill(0, 0, 255);
+  u.beginShape();  
   u.noStroke();
   u.vertex(x,y-baricentroY);
   u.vertex(x1, y1+baricentroY);
   u.vertex(x2, y2-baricentroY);  
   u.endShape(CLOSE);
+  /////////////////////////////////////////////
   rectColor = color(17,237,224);
   rectHighlight = color(255,46,46);
   trihilight=color(0,155,12);
@@ -122,17 +122,15 @@ void setup() {
   po12=400;
   imageMode(CENTER);
   ellipseMode(CENTER);
-  rectMode(CENTER); 
- 
-  
+  rectMode(CENTER);  
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 }
 void draw(){ 
   frameRate(120);  
   update(mouseX, mouseY);
-  background(bg);  
-  image(img,width/2,height/2);
-  
- 
+  background(bg);   
+  fill(0);
+  square(width/2, height/2, 301);   
 //////////////////////////////rectangulo/////////////////////////////////////////////////////////
 noStroke();
 verificador(rectOver);           
@@ -412,6 +410,7 @@ verificador(rectOver);
  }
  gane();
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void verificador7(boolean figura){
   if (figura) {
     
@@ -467,36 +466,34 @@ void verificador(boolean figura){
     fill(rectHighlight);
   }  
 }
-
-
 void update(int x, int y) {
   if ( overCircle(circleX, circleY, circleSize) ) {
     circleOver = true;
-    
+ /////////////////////////////////////////////////////////////////////////////////////////   
   } else if ( overRect(rectX, rectY, rectSize, rectSize) ) {
     rectOver = true;
-    triOver=triOver2=triOver3=triOver4=triOver5=false;
+    quadOver=triOver=triOver2=triOver3=triOver4=triOver5=false;
     
   }
   else if ( overTri(baricentroX,baricentroY,x2,y2) ) {   
     triOver=true;
-    rectOver=triOver2=triOver3=triOver4=triOver5=false;
+    quadOver=rectOver=triOver2=triOver3=triOver4=triOver5=false;
   }
   else if ( overTri2(baricentroX,baricentroY,x2,y2) ) {    
     triOver2=true;
-    rectOver=triOver=triOver3=triOver4=triOver5=false;
+    quadOver=rectOver=triOver=triOver3=triOver4=triOver5=false;
   }
   else if ( overTri3(baricentroX,baricentroY,x2,y2) ) {  
     triOver3=true;
-    rectOver=triOver2=triOver=triOver4=triOver5=false;
+    quadOver=rectOver=triOver2=triOver=triOver4=triOver5=false;
   }
   else if ( overTri4(baricentroX,baricentroY,x2,y2) ) {    
     triOver4=true;
-    rectOver=triOver2=triOver3=triOver=triOver5=false;
+    quadOver=rectOver=triOver2=triOver3=triOver=triOver5=false;
   }
   else if ( overTri5(baricentroX,baricentroY,x2,y2) ) {    
     triOver5=true;
-    rectOver=triOver2=triOver3=triOver4=triOver=false;
+    quadOver=rectOver=triOver2=triOver3=triOver4=triOver=false;
   }
   else if ( overQuad(quCenx,quCeny,qux,quy) ) {    
     quadOver=true;
@@ -507,7 +504,7 @@ void update(int x, int y) {
     quadOver=triOver5=triOver4=triOver3=triOver2=triOver=circleOver = rectOver = false;
   }
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void mouseClicked() {
  
   if (circleOver && move ==false) {
@@ -566,93 +563,75 @@ void mouseClicked() {
     
   }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 boolean overQuad(float quCenx, float quCeny,float x,float y ){
   float disX = po11 - mouseX;
   float disY = po12 - mouseY;
   float disX1 =quCenx-x;
-  float disY1 =quCeny-y;
-  
-  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){
-    
+  float disY1 =quCeny-y;  
+  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){    
     return true;
   } else{
     return false;
-  }
-  
+  }  
 }
 boolean overTri5(float bariX, float bariY,float x,float y ){
   float disX = po9 - mouseX;
   float disY = po10 - mouseY;
   float disX1 = bariX-x;
-  float disY1 =bariY-y;
-  
-  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){
-    
+  float disY1 =bariY-y;  
+  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){    
     return true;
   } else{
     return false;
-  }
-  
+  }  
 }
 boolean overTri4(float bariX, float bariY,float x,float y ){
   float disX = po7 - mouseX;
   float disY = po8 - mouseY;
   float disX1 = bariX-x;
-  float disY1 =bariY-y;
-  
-  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){
-    
+  float disY1 =bariY-y;  
+  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){    
     return true;
   } else{
     return false;
-  }
-  
+  }  
 }
 boolean overTri3(float bariX, float bariY,float x,float y ){
   float disX = po5 - mouseX;
   float disY = po6 - mouseY;
   float disX1 = bariX-x;
-  float disY1 =bariY-y;
-  
-  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){
-    
+  float disY1 =bariY-y;  
+  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){    
     return true;
   } else{
     return false;
-  }
-  
+  }  
 }
 boolean overTri2(float bariX, float bariY,float x,float y ){
   float disX = po3 - mouseX;
   float disY = po4 - mouseY;
   float disX1 = bariX-x;
-  float disY1 =bariY-y;
-  
-  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){
-    
+  float disY1 =bariY-y;  
+  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){    
     return true;
   } else{
     return false;
-  }
-  
+  }  
 }
 boolean overTri(float bariX, float bariY,float x,float y ){
   float disX = po1 - mouseX;
   float disY = po2 - mouseY;
   float disX1 = bariX-x;
-  float disY1 =bariY-y;
-  
-  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){
-    
+  float disY1 =bariY-y;  
+  if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100){    
     return true;
   } else{
     return false;
-  }
-  
+  }  
 }
 boolean overRect(int x, int y, int ancho, int alto)  {
-  
-  if ((mouseX <= x && mouseX >= x-ancho/2  && (mouseY <= y && mouseY >= y-alto/2 ||
+    if ((mouseX <= x && mouseX >= x-ancho/2  && (mouseY <= y && mouseY >= y-alto/2 ||
         mouseY>=y && mouseY<=y+alto/2)) || (mouseX>=x  && mouseX <= x+ancho/2 && (mouseY <= y &&
         mouseY>=y-alto/2 || mouseY>=y && mouseY<y+alto/2)) ){
     return true;
@@ -660,8 +639,6 @@ boolean overRect(int x, int y, int ancho, int alto)  {
     return false;
   }
 }
-
-
 boolean overCircle(int x, int y, int diameter) {
   float disX = x - mouseX;
   float disY = y - mouseY;
@@ -671,12 +648,13 @@ boolean overCircle(int x, int y, int diameter) {
     return false;
   }
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void ganador(){
   loadPixels();
   for (int i =200250; i <200550; i++){
     for (int j=0; j<300; j++){
       int hu=i+j*800;
-      if (pixels[hu]==color(255)){
+      if (pixels[hu]==color(0)){
         c++;             
         }        
       }     
@@ -690,6 +668,7 @@ void ganador(){
      }
     c=0;   
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gane(){
   if (conGanador==true){
     image(gn,width/2,height/2);
