@@ -1,7 +1,6 @@
 Forms atributo=new Forms();
 class Comprobador {
-  float quCenx;
-  float quCeny;
+  float quCenx, quCeny;  
   float distQuadx, distQuady, disTrix, disTriy;  
   float bariX, bariY;
   float ancho, alto;
@@ -17,6 +16,7 @@ class Comprobador {
     bariX=atributo.getBarix();
     bariY=atributo.getBariy();
   }
+  /******************************************************************/
   boolean overQuad( float posX, float posY ) {
     float disX = posX - mouseX;
     float disY = posY - mouseY;
@@ -28,6 +28,7 @@ class Comprobador {
       return false;
     }
   }
+  /******************************************************************/
   boolean overTri( float po9, float po10 ) {
     float disX = po9 - mouseX;
     float disY = po10 - mouseY;
@@ -39,6 +40,7 @@ class Comprobador {
       return false;
     }
   }
+  /******************************************************************/
   boolean overRect(float x, float y ) {
     if ((mouseX <= x && mouseX >= x-ancho/2  && (mouseY <= y && mouseY >= y-alto/2 ||
       mouseY>=y && mouseY<=y+alto/2)) || (mouseX>=x  && mouseX <= x+ancho/2 && (mouseY <= y &&
@@ -48,6 +50,7 @@ class Comprobador {
       return false;
     }
   }
+  /******************************************************************/
   boolean overCircle(int x, int y, int diameter) {
     float disX = x - mouseX;
     float disY = y - mouseY;

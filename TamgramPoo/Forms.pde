@@ -1,8 +1,9 @@
 class Forms {
-  PShape triang, cuadra, u, w, p, quad;
+  PShape triang, u, w, p, quad;
   float cenxTri, cenyTri, bariX, bariY;
   PVector vert1, vert2, vert3, vert4;
   PVector triVert1, triVert2, triVert3;
+/******************************************************************/
   Forms() {
     vert1=new PVector(-150, -50);
     vert2=new PVector(-50, 50);
@@ -16,6 +17,7 @@ class Forms {
     bariX=(triVert1.x+triVert2.x+triVert3.x)/3;
     bariY=(triVert1.y+triVert2.y+triVert3.y)/3;
   }
+  /******************************************************************/
   void shapeQuad(float posX, float posY) {
     quad=createShape();
     quad.beginShape();
@@ -27,6 +29,31 @@ class Forms {
     quad.endShape(CLOSE);
     shape(quad, posX, posY);
   }
+  /******************************************************************/
+  void shapeQuad2(float posX, float posY) {
+    quad=createShape();
+    quad.beginShape();
+    quad.noStroke();
+    quad.vertex(-50, -50);
+    quad.vertex(-150, 50);
+    quad.vertex(100, 50);
+    quad.vertex(200, -50);  
+    quad.endShape(CLOSE);
+    shape(quad, posX, posY);
+  }
+  /******************************************************************/
+  void shapeQuad2(float posX, float posY, float sizeX, float sizeY) {
+    quad=createShape();
+    quad.beginShape();
+    quad.noStroke();
+    quad.vertex(-50, -50);
+    quad.vertex(-150, 50);
+    quad.vertex(100, 50);
+    quad.vertex(200, -50);  
+    quad.endShape(CLOSE);
+    shape(quad, posX, posY, sizeX, sizeY);
+  }
+  /******************************************************************/
   void shapeQuad(float posX, float posY, float sizeX, float sizeY) {
     quad=createShape();
     quad.beginShape();
@@ -38,6 +65,7 @@ class Forms {
     quad.endShape(CLOSE);
     shape(quad, posX, posY, sizeX, sizeY);
   }
+  /******************************************************************/
   void rectan(float x, float y) {
     rectMode(CENTER);
     rect(x, y, 100, 100);
@@ -46,6 +74,7 @@ class Forms {
     rectMode(CENTER);
     rect(x, y, sizeX, sizeY);
   }
+  /******************************************************************/
   void shapeTriang(float posX, float posY) {
     triang=createShape();
     triang.beginShape();  
@@ -56,6 +85,7 @@ class Forms {
     triang.endShape(CLOSE);
     shape(triang, posX, posY);
   }
+  /******************************************************************/
   void shapeTriang(float posX, float posY, float sizeX, float sizeY) {
     triang = createShape();
     triang.beginShape();  
@@ -66,6 +96,7 @@ class Forms {
     triang.endShape(CLOSE);
     shape(triang, posX, posY, sizeX, sizeY);
   }
+/******************************************************************/
   float getCentx() {
     return cenxTri;
   } 
