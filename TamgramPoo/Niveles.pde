@@ -1,14 +1,30 @@
-class Niveles {
-  boolean move, move1, move2, move3, move4, move5, move6;
-  boolean rectOver, triOver, triOver2, triOver3, triOver4, triOver5, quadOver, retroceder;
-  Complement trans1, trans2, trans3, trans4, trans5, trans6, trans7;
+class Niveles extends Puntuacion {  
+  Complement trans1, trans2, trans3, trans4, trans5, trans6, trans7; 
+  PVector [] vector;
+  float [] rotas;
   Forms form;
   color[] fig;
-  int figu=1;
-  Niveles()
+  int figu=1, figuCuad, figuTri; 
+  Menu reset;
+  //Puntuacion puntos;
+  float [] posX;
+  float [] posY;
+  float [] rot;
+  move move;
+  JSONObject json, json2;
+  JSONArray values;
   /******************************************************************/
-  {
-    rectOver=triOver= triOver2= triOver3=triOver4=triOver5= quadOver=false;
+  Niveles() {
+    posX=new float[7];
+    posY=new float[7];
+    rot=new float[7];    
+    move=new move();    
+    figuCuad=2;
+    figuTri=3;
+    reset=new Menu();
+    //puntos=new Puntuacion();
+    vector=new PVector[7];
+    rotas=new float[7];
     trans1=new Complement();
     trans2=new Complement();
     trans3=new Complement();
@@ -19,115 +35,76 @@ class Niveles {
     form=new Forms();
   } 
   /******************************************************************/
-  void crearNivel(color[] ColFig, PImage img ) {  
+  void crearNivel(color[] ColFig, PImage img, boolean botton ) {  
     background(imagen);
-    paint.verificador(retroceder, base, 255);   
-    form.rectan(30, 30, 40, 40);
-    fill(0);    
-    //square(width/2, height/2, 301);    
+    if (botton) {
+      paint.verificador(comprobar.overRect(30, 30), color(254, 255, 0), color(219, 2, 17));   
+      form.rectan(30, 30, 40, 40);
+    }
+    fill(0);
+    if (time) {
+      time();
+    }        
     noStroke();
-    //////////////////////////////rectangulo/////////////////////////////////////////////////////////  
-    paint.verificador(rectOver, base, ColFig[0]);   
-    trans1.total(move, rectOver, 2);
-    //////////////////////////////////////triangulo1/////////////////////////////////////////////////
-    paint.verificador(triOver, base, ColFig[1]);
-    trans2.total(move1, triOver, 3);
-    /////////////////////////////////triangulo2/////////////////////////////////////////////////////    
-    paint.verificador(triOver2, base, ColFig[2]);
-    trans3.total(move2, triOver2, 3);
-    ////////////////////////////trriangulo 3///////////////////////////////////////////////////////
-    paint.verificador(triOver3, base, ColFig[3]);
-    trans4.total(move3, triOver3, 3, 75, 37.5);
-    ////////////////////////////////triangulo4/////////////////////////////////////////////////////
-    paint.verificador(triOver4, base, ColFig[4]);
-    trans5.total(move4, triOver4, 3, 75, 37.5);
-    //////////////////////////////////////////triangulo 5/////////////////////////////////////////
-    paint.verificador(triOver5, base, ColFig[5]);
-    trans6.total(move5, triOver5, 3, 100, 50);
-    //////////////////////////////////////////////////quad////////////////////////////////////////
-    paint.verificador(quadOver, base, ColFig[6]);
-    trans7.total(move6, quadOver, figu, 120, 32);
-    //////////////////////////////////////////////////////////////////////////////////////////////  
+    /*****************************************************************************************************/
+    paint.verificador(comprobar.overRect(trans1.getTransx(), trans1.getTransy()), base, ColFig[0]);   
+    trans1.total( comprobar.overRect(trans1.getTransx(), trans1.getTransy()), figuCuad);
+    /*****************************************************************************************************/
+    paint.verificador( comprobar.overTri(trans2.getTransx(), trans2.getTransy()), base, ColFig[1]);
+    trans2.total( comprobar.overTri(trans2.getTransx(), trans2.getTransy()), figuTri);
+    /*****************************************************************************************************/
+    paint.verificador(comprobar.overTri(trans3.getTransx(), trans3.getTransy()), base, ColFig[2]);
+    trans3.total( comprobar.overTri(trans3.getTransx(), trans3.getTransy()), figuTri);
+    /*****************************************************************************************************/
+    paint.verificador(comprobar.overTri(trans4.getTransx(), trans4.getTransy()), base, ColFig[3]);
+    trans4.total( comprobar.overTri(trans4.getTransx(), trans4.getTransy()), figuTri, 75, 37.5);
+    /*****************************************************************************************************/
+    paint.verificador(comprobar.overTri(trans5.getTransx(), trans5.getTransy()), base, ColFig[4]);
+    trans5.total( comprobar.overTri(trans5.getTransx(), trans5.getTransy()), figuTri, 75, 37.5);
+    /*****************************************************************************************************/
+    paint.verificador(comprobar.overTri(trans6.getTransx(), trans6.getTransy()), base, ColFig[5]);
+    trans6.total( comprobar.overTri(trans6.getTransx(), trans6.getTransy()), figuTri, 100, 50);
+    /*****************************************************************************************************/
+    paint.verificador(comprobar.overQuad(trans7.getTransx(), trans7.getTransy()), base, ColFig[6]);
+    trans7.total( comprobar.overQuad(trans7.getTransx(), trans7.getTransy()), figu, 120, 32);
+    /*****************************************************************************************************/
     if (keyPressed) {
-      if (key == 'g' || key == 'G') {
-        ganador();
+      if (key == 'g' || key == 'G') {        
+        ganador();        
         delay(200);
       }
     }
     gane();
   }
-  /******************************************************************/
+  /*************************************************************************************************************/
+  void up(boolean comprobador, Complement trans) {
+    if (comprobador) {        
+      if (mousePressed && (mouseButton == LEFT)) {
+        trans.movimiento=true;
+      } else if (mousePressed && (mouseButton == RIGHT)) {
+        trans.movimiento=false;
+      }
+    }
+  }
+  /********************************************************************************************************************/
   void update() {
+    getQaud();
+    cargar();
     if (comprobar.overRect(30, 30)) {
-      retroceder=true;
       if (mousePressed && (mouseButton == LEFT)) {     
         print(images.size()+"\n");
-        nivel=20;
-      } else if (move==true) {
-        move=false;
+        nivel=3;
+        reset.reset();
       }
-    } else if ( comprobar.overRect(trans1.getTransx(), trans1.getTransy()) ) {    
-      rectOver = true;
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move==false) {
-          move=true;
-        } else if (move==true) {
-          move=false;
-        }
-      }  
-      quadOver=triOver=triOver2=triOver3=triOver4=triOver5=false;
-    } else if ( comprobar.overTri(trans2.getTransx(), trans2.getTransy()) ) {   
-      triOver=true;
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move1==false) {
-          move1=true;
-        } else if (move1==true) {
-          move1=false;
-        }
-      }
-      quadOver=rectOver=triOver2=triOver3=triOver4=triOver5=false;
-    } else if ( comprobar.overTri(trans3.getTransx(), trans3.getTransy()) ) {    
-      triOver2=true;
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move2==false) {
-          move2=true;
-        } else if (move2==true) {
-          move2=false;
-        }
-      }
-      quadOver=rectOver=triOver=triOver3=triOver4=triOver5=false;
-    } else if ( comprobar.overTri(trans4.getTransx(), trans4.getTransy())) {  
-      triOver3=true;
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move3==false) {
-          move3=true;
-        } else if (move3==true) {
-          move3=false;
-        }
-      }
-      quadOver=rectOver=triOver2=triOver=triOver4=triOver5=false;
-    } else if ( comprobar.overTri(trans5.getTransx(), trans5.getTransy())) {    
-      triOver4=true;
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move4==false) {
-          move4=true;
-        } else if (move4==true) {
-          move4=false;
-        }
-      }
-      quadOver=rectOver=triOver2=triOver3=triOver=triOver5=false;
-    } else if (comprobar.overTri(trans6.getTransx(), trans6.getTransy())) {   
-      triOver5=true;
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move5==false) {
-          move5=true;
-        } else if (move5==true) {
-          move5=false;
-        }
-      }
-      quadOver=rectOver=triOver2=triOver3=triOver4=triOver=false;
-    } else if (comprobar.overQuad(trans7.getTransx(), trans7.getTransy())) {
-      quadOver=true;
+    }
+    up (comprobar.overRect(trans1.getTransx(), trans1.getTransy()), trans1);
+    up(comprobar.overTri(trans2.getTransx(), trans2.getTransy()), trans2);
+    up(comprobar.overTri(trans3.getTransx(), trans3.getTransy()), trans3);
+    up(comprobar.overTri(trans4.getTransx(), trans4.getTransy()), trans4);
+    up(comprobar.overTri(trans5.getTransx(), trans5.getTransy()), trans5);
+    up(comprobar.overTri(trans6.getTransx(), trans6.getTransy()), trans6);
+    up (comprobar.overQuad(trans7.getTransx(), trans7.getTransy()), trans7);
+    if (comprobar.overQuad(trans7.getTransx(), trans7.getTransy())) {
       if (keyPressed) {
         if (key == 'c' || key == 'C') {
           if (figu==1) {
@@ -139,16 +116,84 @@ class Niveles {
           }
         }
       }
-      if (mousePressed && (mouseButton == LEFT)) {
-        if (move6==false) {
-          move6=true;
-        } else if (move6==true) {
-          move6=false;
+    }
+    savNive();
+  }
+  /********************************************************************************************************/
+  void ganador() {
+    loadPixels();
+    for (int i =200250; i <200550; i++) {
+      for (int j=0; j<300; j++) {
+        int hu=i+j*800;
+        if (pixels[hu]==color(0)) {
+          c++;
         }
       }
-      triOver5=rectOver=triOver2=triOver3=triOver4=triOver=false;
+    }
+    print(c, "\n");
+    if (c<5000) {
+      conGanador=true;
     } else {
-      quadOver=triOver5=triOver4=triOver3=triOver2=triOver=rectOver=iniciar=retroceder= false;
+      conGanador=false;
+    }
+    c=0;
+  }
+  /********************************************************************************************************************/
+  void gane() {
+    if (conGanador==true) {
+      imageMode(CENTER);
+      image(gn, width/2, height/2);
     }
   }
+  /********************************************************************************************************************/
+  void savNive() {
+    vector[0]=new PVector(trans1.getTransx(), trans1.getTransy());
+    vector[1]=new PVector(trans2.getTransx(), trans2.getTransy());
+    vector[2]=new PVector(trans3.getTransx(), trans3.getTransy());
+    vector[3]=new PVector(trans4.getTransx(), trans4.getTransy());
+    vector[4]=new PVector(trans5.getTransx(), trans5.getTransy());
+    vector[5]=new PVector(trans6.getTransx(), trans6.getTransy());
+    vector[6]=new PVector(trans7.getTransx(), trans7.getTransy()); 
+    rotas[0]=trans1.getRot();
+    rotas[1]=trans2.getRot();
+    rotas[2]=trans3.getRot();
+    rotas[3]=trans4.getRot();
+    rotas[4]=trans5.getRot();
+    rotas[5]=trans6.getRot();
+    rotas[6]=trans7.getRot();
+    //print(vector[0]+"\n");
+  }
+  /********************************************************************************************************************/
+  void puntajes() {
+    if (keyPressed) {
+      if (key == 'u' || key == 'U') {          
+        numCadena2= String.valueOf(numJson);
+        jsonTime();        
+        for (int i=0; i<7; i ++) {
+          posX[i]=vector[i].x;
+          posY[i]=vector[i].y;
+          rot[i]=rotas[i];
+        }
+        values = new JSONArray();
+        for (int i = 0; i < posX.length; i++) {
+          JSONObject completados = new JSONObject();
+          completados.setInt("id", i);
+          completados.setFloat("X", posX[i]);
+          completados.setFloat("Y", posY[i]);
+          completados.setFloat("rot", rot[i]);
+          values.setJSONObject(i, completados);
+        }
+        json = new JSONObject();
+        json.setJSONArray("Puntajes", values);
+        saveJSONObject(json, "data/new.json"+numCadena2);
+        numJson=numJson+1;
+        delay(800);
+      }
+    }
+  }
+  /********************************************************************************************************************/
+  void getQaud() {
+    Quad=figu;
+  }
+  /********************************************************************************************************************/
 }

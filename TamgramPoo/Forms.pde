@@ -3,7 +3,7 @@ class Forms {
   float cenxTri, cenyTri, bariX, bariY;
   PVector vert1, vert2, vert3, vert4;
   PVector triVert1, triVert2, triVert3;
-/******************************************************************/
+  /******************************************************************/
   Forms() {
     vert1=new PVector(-150, -50);
     vert2=new PVector(-50, 50);
@@ -96,7 +96,7 @@ class Forms {
     triang.endShape(CLOSE);
     shape(triang, posX, posY, sizeX, sizeY);
   }
-/******************************************************************/
+  /******************************************************************/
   float getCentx() {
     return cenxTri;
   } 
