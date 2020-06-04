@@ -37,8 +37,7 @@ void setup() {
   crear=new Creador();
   base=color(194, 216, 70);
   level=new Niveles();
-  menus=new Menu();
-  //points=new Puntuacion();
+  menus=new Menu(); 
   /******************************************************************/
   numJson=numEntero=0;
   ini=0;

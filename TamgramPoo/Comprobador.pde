@@ -22,7 +22,7 @@ class Comprobador {
     float disY = posY - mouseY;
     float disX1 =quCenx-distQuadx;
     float disY1 =quCeny-distQuady;  
-    if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100) {    
+    if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-125) {    
       return true;
     } else {
       return false;
@@ -34,7 +34,7 @@ class Comprobador {
     float disY = po10 - mouseY;
     float disX1 =bariX-disTrix;
     float disY1 =bariY-disTriy;  
-    if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-100) {    
+    if (sqrt(sq(disX) + sq(disY))< sqrt(sq(disX1) + sq(disY1))-125) {    
       return true;
     } else {
       return false;

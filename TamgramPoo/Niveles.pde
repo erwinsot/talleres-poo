@@ -1,5 +1,6 @@
 class Niveles extends Puntuacion {  
   Complement trans1, trans2, trans3, trans4, trans5, trans6, trans7; 
+  boolean quadOver,triOver5,triOver4,triOver3,triOver2,triOver1,rectOver;
   PVector [] vector;
   float [] rotas;
   Forms form;
@@ -15,14 +16,14 @@ class Niveles extends Puntuacion {
   JSONArray values;
   /******************************************************************/
   Niveles() {
+    quadOver=triOver5=triOver4=triOver3=triOver2=triOver1= rectOver= false;
     posX=new float[7];
     posY=new float[7];
     rot=new float[7];    
     move=new move();    
     figuCuad=2;
     figuTri=3;
-    reset=new Menu();
-    //puntos=new Puntuacion();
+    reset=new Menu();    
     vector=new PVector[7];
     rotas=new float[7];
     trans1=new Complement();
@@ -47,29 +48,30 @@ class Niveles extends Puntuacion {
     }        
     noStroke();
     /*****************************************************************************************************/
-    paint.verificador(comprobar.overRect(trans1.getTransx(), trans1.getTransy()), base, ColFig[0]);   
-    trans1.total( comprobar.overRect(trans1.getTransx(), trans1.getTransy()), figuCuad);
+    
+    paint.verificador(rectOver, base, ColFig[0]);   
+    trans1.total( rectOver, figuCuad);
     /*****************************************************************************************************/
-    paint.verificador( comprobar.overTri(trans2.getTransx(), trans2.getTransy()), base, ColFig[1]);
-    trans2.total( comprobar.overTri(trans2.getTransx(), trans2.getTransy()), figuTri);
+    paint.verificador( triOver1, base, ColFig[1]);
+    trans2.total( triOver1, figuTri);
     /*****************************************************************************************************/
-    paint.verificador(comprobar.overTri(trans3.getTransx(), trans3.getTransy()), base, ColFig[2]);
-    trans3.total( comprobar.overTri(trans3.getTransx(), trans3.getTransy()), figuTri);
+    paint.verificador(triOver2, base, ColFig[2]);
+    trans3.total( triOver2, figuTri);
     /*****************************************************************************************************/
-    paint.verificador(comprobar.overTri(trans4.getTransx(), trans4.getTransy()), base, ColFig[3]);
-    trans4.total( comprobar.overTri(trans4.getTransx(), trans4.getTransy()), figuTri, 75, 37.5);
+    paint.verificador(triOver3, base, ColFig[3]);
+    trans4.total( triOver3, figuTri, 75, 37.5);
     /*****************************************************************************************************/
-    paint.verificador(comprobar.overTri(trans5.getTransx(), trans5.getTransy()), base, ColFig[4]);
-    trans5.total( comprobar.overTri(trans5.getTransx(), trans5.getTransy()), figuTri, 75, 37.5);
+    paint.verificador(triOver4, base, ColFig[4]);
+    trans5.total( triOver4, figuTri, 75, 37.5);
     /*****************************************************************************************************/
-    paint.verificador(comprobar.overTri(trans6.getTransx(), trans6.getTransy()), base, ColFig[5]);
-    trans6.total( comprobar.overTri(trans6.getTransx(), trans6.getTransy()), figuTri, 100, 50);
+    paint.verificador(triOver5, base, ColFig[5]);
+    trans6.total(triOver5, figuTri, 100, 50);
     /*****************************************************************************************************/
-    paint.verificador(comprobar.overQuad(trans7.getTransx(), trans7.getTransy()), base, ColFig[6]);
-    trans7.total( comprobar.overQuad(trans7.getTransx(), trans7.getTransy()), figu, 120, 32);
+    paint.verificador(quadOver, base, ColFig[6]);
+    trans7.total( quadOver, figu, 120, 32);
     /*****************************************************************************************************/
     if (keyPressed) {
-      if (key == 'g' || key == 'G') {        
+      if (key == 'g' || key == 'G') {
         ganador();        
         delay(200);
       }
@@ -88,22 +90,23 @@ class Niveles extends Puntuacion {
   }
   /********************************************************************************************************************/
   void update() {
+    update2();
     getQaud();
     cargar();
     if (comprobar.overRect(30, 30)) {
-      if (mousePressed && (mouseButton == LEFT)) {     
-        print(images.size()+"\n");
+      if (mousePressed && (mouseButton == LEFT)) {       
         nivel=3;
+        conGanador=false;
         reset.reset();
       }
     }
-    up (comprobar.overRect(trans1.getTransx(), trans1.getTransy()), trans1);
-    up(comprobar.overTri(trans2.getTransx(), trans2.getTransy()), trans2);
-    up(comprobar.overTri(trans3.getTransx(), trans3.getTransy()), trans3);
-    up(comprobar.overTri(trans4.getTransx(), trans4.getTransy()), trans4);
-    up(comprobar.overTri(trans5.getTransx(), trans5.getTransy()), trans5);
-    up(comprobar.overTri(trans6.getTransx(), trans6.getTransy()), trans6);
-    up (comprobar.overQuad(trans7.getTransx(), trans7.getTransy()), trans7);
+    up (rectOver, trans1);
+    up(triOver1, trans2);
+    up(triOver2, trans3);
+    up(triOver3, trans4);
+    up(triOver4, trans5);
+    up(triOver5, trans6);
+    up (quadOver, trans7);
     if (comprobar.overQuad(trans7.getTransx(), trans7.getTransy())) {
       if (keyPressed) {
         if (key == 'c' || key == 'C') {
@@ -161,7 +164,6 @@ class Niveles extends Puntuacion {
     rotas[4]=trans5.getRot();
     rotas[5]=trans6.getRot();
     rotas[6]=trans7.getRot();
-    //print(vector[0]+"\n");
   }
   /********************************************************************************************************************/
   void puntajes() {
@@ -196,4 +198,37 @@ class Niveles extends Puntuacion {
     Quad=figu;
   }
   /********************************************************************************************************************/
+  void update2() {
+   if ( comprobar.overRect(trans1.getTransx(), trans1.getTransy()) ) {
+    rectOver = true;
+    quadOver=triOver1=triOver2=triOver3=triOver4=triOver5=false;    
+  }
+  else if ( comprobar.overTri(trans2.getTransx(), trans2.getTransy()) ) {   
+    triOver1=true;
+    quadOver=rectOver=triOver2=triOver3=triOver4=triOver5=false;
+  }
+  else if ( comprobar.overTri(trans3.getTransx(), trans3.getTransy()) ) {    
+    triOver2=true;
+    quadOver=rectOver=triOver1=triOver3=triOver4=triOver5=false;
+  }
+  else if ( comprobar.overTri(trans4.getTransx(), trans4.getTransy())) {  
+    triOver3=true;
+    quadOver=rectOver=triOver2=triOver1=triOver4=triOver5=false;
+  }
+  else if ( comprobar.overTri(trans5.getTransx(), trans5.getTransy()) ) {    
+    triOver4=true;
+    quadOver=rectOver=triOver2=triOver3=triOver1=triOver5=false;
+  }
+  else if ( comprobar.overTri(trans6.getTransx(), trans6.getTransy()) ) {    
+    triOver5=true;
+    quadOver=rectOver=triOver2=triOver3=triOver4=triOver1=false;
+  }  
+  else if (comprobar.overQuad(trans7.getTransx(), trans7.getTransy())){
+    quadOver=true;
+    triOver5=rectOver=triOver2=triOver3=triOver4=triOver1=false;
+  }  
+  else {
+    quadOver=triOver5=triOver4=triOver3=triOver2=triOver1= rectOver = false;
+  }
+}
 }

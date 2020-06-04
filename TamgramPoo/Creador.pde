@@ -15,13 +15,10 @@ class Creador extends Niveles {
     crearNivel(fig, imagen, true);
   }
   /******************************************************************/
-  void oneNivel(color[] fig, int nivel) {
-    //reset.reset();
-    
+  void oneNivel(color[] fig, int nivel) {    
     present=false; 
     level.update();
     level.crearNivel(fig, images.get(nivel), true);
-   
   }
   /******************************************************************/
   void crear() {
@@ -32,7 +29,7 @@ class Creador extends Niveles {
     form.rectan(30, 30, 40, 40);
     if (comprobar.overRect(30, 30)) {
       if (mousePressed && (mouseButton == LEFT)) {     
-        print(images.size()+"\n");
+
         nivel=20;
       }
     }
@@ -58,7 +55,7 @@ class Creador extends Niveles {
   void corro(float x, float y, int i) {  
     if (comprobar.overRect(x, y)) {        
       if (mousePressed && (mouseButton == LEFT)) {        
-        print("si");
+
         imagen=images.get(i);        
         nivel=4;
       }
@@ -74,10 +71,9 @@ class Creador extends Niveles {
     }
     if (comprobar.overRect(30, 750)) {
       if (mousePressed && (mouseButton == LEFT)) {     
-        print(images.size()+"\n");
+       
         nivel=20;
       }
     }
   }
-
 }

@@ -3,13 +3,12 @@ class Complement extends move {
   PVector trans;
   boolean movimiento;
   Complement() {
-    this(random(100, width-100), random(100, height-100), random(2, 360) );        
-    }
-  
+    this(random(100, width-100), random(100, height-100), random(2, 360) );
+  }
+
   Complement(float x, float y, float r ) {
     trans = new PVector(x, y);
     rot = r;
-     
   }
   /******************************************************************/
   void total( boolean verificador, int figura ) {    
@@ -52,13 +51,13 @@ class Complement extends move {
     }
   } 
   /******************************************************************/
-  PVector ss(){
+  PVector ss() {
     return trans;
   }
-  float getRot(){
+  float getRot() {
     return rot;
   }
-  boolean getMovi(){
+  boolean getMovi() {
     return movimiento;
   }
   float getTransx() {

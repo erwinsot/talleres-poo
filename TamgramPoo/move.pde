@@ -19,7 +19,7 @@ class move extends Forms {
     }
     popMatrix();
   }
-  /******************************************************************/
+  /********************************************************************************************************************/
   void mover  (int fig, float posX, float posY, float rota, float tamX, float tamY) {
     pushMatrix();
     translate(posX, posY);
